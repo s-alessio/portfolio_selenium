@@ -7,15 +7,10 @@ import re
 class AirbnbPage(BasePage):
 
     def accept_cookies(self):
-        print("Accept cookies")
-        #time.sleep(10)
         self.is_element_clickable(self.browser,*AirBnbLocators.cookie_buttons)
         cbuttons = self.browser.find_elements(*AirBnbLocators.cookie_buttons)
-        #print("cbuttons",len(cbuttons))
         for cb in cbuttons:
-            print ("cb",cb.text)
             if cb.text == "Only necessary":
-                #print ("click")
                 cb.click()
 
     def set_max_price(self,max_price):
@@ -47,6 +42,7 @@ class AirbnbPage(BasePage):
         assert len(months) > 5, "Not enough months found:" + str(len(months))
         self.browser.find_elements(*AirBnbLocators.months_carousel)[1].click()
 
+
     def find_accomodation(self):
         assert self.is_element_clickable(self.browser, *AirBnbLocators.search_button), "Search button not found or clickable"
         self.browser.find_element(*AirBnbLocators.search_button).click()
@@ -65,8 +61,8 @@ class AirbnbPage(BasePage):
             i += 1
             tp_text = tp.text
             match = re.search(r"(\d+)", tp_text)
-            # max_price+20 - because sometimes total price is slightly exceed max price set in filters
             if match:
+                # test stops when the first price that exceeds max_price is found
                 assert int(match.group(1)) < max_price and int(
                     match.group(1)) > 0, "Incorrect total price: " + tp_text
             else:
