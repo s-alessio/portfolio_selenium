@@ -1,7 +1,6 @@
 from page_object.airbnb_page import AirbnbPage
 import pytest
 
-
 @pytest.mark.parametrize("location,max_price",[("Paris",100)])
 def test_can_search_for_appartment_in_next_month(browser,location,max_price):
     page = AirbnbPage(browser,"https://www.airbnb.co.uk/")
